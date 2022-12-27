@@ -1,0 +1,10 @@
+.text-center {
+    text-align: center;
+}
+
+.active {
+    border: 1px dashed black;
+}
+button {
+    border: 1px dashed transparent;
+}

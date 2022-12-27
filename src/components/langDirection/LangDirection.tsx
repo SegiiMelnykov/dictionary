@@ -1,6 +1,7 @@
 import React from 'react';
 
-
+import { useAppSelector } from 'hooks/redux';
+import { useActions } from 'hooks/actions';
 
 
 type directionType = {
@@ -8,18 +9,19 @@ type directionType = {
 }
 
 const direction: directionType = {
-    'true': 'eng to rus',
-    'false': 'rus to eng'
+    'true': 'English to Russian',
+    'false': 'Russian to English'
 }
 
 const LangDirection = () => {
 
-
+    const {setLangDirection} = useActions()
+    const {langDirection} = useAppSelector(state => state.googleSheet)
  
     return (
-        <>
-            <button type="button" >eng to rus</button>
-        </>
+        <div>
+            <button type="button" onClick={()=> setLangDirection(!langDirection)}>{direction[String(langDirection)]}</button>
+        </div>
     );
 };
 

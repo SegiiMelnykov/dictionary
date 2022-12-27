@@ -10,9 +10,9 @@ import { useActions } from 'hooks/actions';
 const HomePage = () => {
     const {isLoading, isSuccess, data: sheets} = useGetPagesQuery('');
     const {setCurrentPage} = useActions()
-    useEffect(()=> {
-        setCurrentPage(isSuccess ? sheets![0].properties.title : '')
-    }, [sheets])
+    // useEffect(()=> {
+    //     setCurrentPage(isSuccess ? sheets![0].properties.title : '')
+    // }, [sheets])
     console.log('home page')
 
     return (
@@ -24,7 +24,7 @@ const HomePage = () => {
                     ariaLabel="loading"
                     /></div>
                 : <PageList sheets={sheets} /> }
-            {/* {isSuccess && <LangDirection/>} */}
+            {isSuccess && <LangDirection/>}
             {isSuccess && <ShowRecord isSuccessSheets={isSuccess} />  }
             
         </div>

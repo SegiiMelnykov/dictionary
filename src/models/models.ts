@@ -40,7 +40,8 @@ export interface Record {
 
 export interface CurrentPage {
     currentPage: string,
-    currentRecord: number
+    currentRecord: number,
+    langDirection: boolean
 }
 export type Records = Record[] | undefined
 

@@ -9,7 +9,9 @@ import { useActions } from 'hooks/actions';
 const ShowRecord = ({isSuccessSheets}: PageValueProps) => {
     const {setCurrentRecord} = useActions()
     const {currentPage, currentRecord} = useAppSelector(state => state.googleSheet)
+    const {langDirection} = useAppSelector(state => state.googleSheet)
     const [fetchRecords, {isLoading, isSuccess, data}] = useLazyGetRecordsQuery();
+    
     useEffect(() => {
         if(currentPage) {
             fetchRecords(currentPage)

@@ -12,9 +12,13 @@ function App() {
     <>
       <Header/>
       <Routes>
-        <Route path='/' element={<HomePage/>}/>
+        {/* <Route path='/' element={<HomePage/>}/>
         <Route path='/new-record' element={<NewRecord/>} />
         <Route path='/change-record/:id' element={<ChangeRecord/>} />
+        <Route path='*' element={<NotFound/>}/> */}
+        <Route path='/dictionary/build/' element={<HomePage/>}/>
+        <Route path='/dictionary/build//new-record' element={<NewRecord/>} />
+        <Route path='/dictionary/build//change-record/:id' element={<ChangeRecord/>} />
         <Route path='*' element={<NotFound/>}/>
       </Routes>
     </>

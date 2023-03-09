@@ -19,7 +19,7 @@ function App() {
         <Route path='/dictionary/build/' element={<HomePage/>}/>
         <Route path='/dictionary/build/new-record' element={<NewRecord/>} />
         <Route path='/dictionary/build/change-record/:id' element={<ChangeRecord/>} />
-        <Route path='*' element={<NotFound/>}/>
+        <Route path='*' element={<HomePage/>}/>
       </Routes>
     </>
   );

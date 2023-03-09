@@ -10,6 +10,7 @@ export const sheetApi = createApi({
     baseQuery: fetchBaseQuery({
         baseUrl: 'https://sheets.googleapis.com/v4/spreadsheets/'
     }),
+    keepUnusedDataFor: 1,
     endpoints: build =>({
         getPages: build.query<SheetProperties[], string>({
             query: () => ({

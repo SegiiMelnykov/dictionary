@@ -39,9 +39,14 @@ export interface Record {
 }
 
 export interface CurrentPage {
-    currentPage: string,
-    currentRecord: number,
-    langDirection: boolean
+    currentPage: string;
+    currentRecord: {
+        [key:string] : number
+    };
+    langDirection: boolean;
+    dataBuffer: {
+        [key:string] : Record[]
+    }
 }
 export type Records = Record[] | undefined
 

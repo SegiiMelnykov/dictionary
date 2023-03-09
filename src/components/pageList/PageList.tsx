@@ -13,7 +13,8 @@ const PageList = ({sheets}:ListProps) => {
 
     const {setCurrentPage} = useActions()
     const {currentPage} = useAppSelector(state => state.googleSheet)
-    console.log('change page')
+    console.log('reload page list')
+    console.log(currentPage)
 
     return (
         <p>

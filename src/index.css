@@ -5,7 +5,16 @@
 
 .home-page {
     height: 85vh;
+    width: 80%;
+    margin: auto;
 }
+
+@media screen and (max-width:480px) {
+    .home-page {
+        width: 90%;
+    }
+}
+
 .manage-records {
     margin-top: 16px;
     display: flex;
@@ -22,7 +31,10 @@
 }
 
 .home-footer {
-    
+    position: absolute;
+    bottom: 50px;
+    left: 0;
+    right: 0;
 }
 
 

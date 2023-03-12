@@ -19,7 +19,7 @@ const LangDirection = () => {
     const {langDirection} = useAppSelector(state => state.googleSheet)
  
     return (
-        <div>
+        <div className='text-center'>
             <button type="button" onClick={()=> setLangDirection(!langDirection)}>{direction[String(langDirection)]}</button>
         </div>
     );

@@ -2,6 +2,30 @@
     text-align: center;
 }
 
+
+.home-page {
+    height: 85vh;
+}
+.manage-records {
+    margin-top: 16px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+}
+
+.record {
+    margin-top: 35px;
+}
+.record p {
+    font-size: 25px;
+}
+
+.home-footer {
+    
+}
+
+
 .active {
     border: 1px dashed black;
 }

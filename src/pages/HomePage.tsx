@@ -5,18 +5,23 @@ import React, { useEffect, useState } from 'react';
 import { useGetPagesQuery } from 'store/googleSheet/googleSheet.api';
 import { FidgetSpinner } from 'react-loader-spinner'
 import { useActions } from 'hooks/actions';
+import { useAppSelector } from 'hooks/redux';
 
 
 const HomePage = () => {
     const {isLoading, isSuccess, data: sheets} = useGetPagesQuery('');
     const {setCurrentPage} = useActions()
-    // useEffect(()=> {
-    //     setCurrentPage(isSuccess ? sheets![0].properties.title : '')
-    // }, [sheets])
-    console.log('home page')
+
+    const {currentPage} = useAppSelector(state => state.googleSheet)
+    
+    useEffect(()=> {
+        // setCurrentPage(currentPage ? sheets![0].properties.title : '')
+
+    }, [isSuccess])
+    // console.log('home page')
 
     return (
-        <div>
+        <div className='home-page'>
             {isLoading 
                 ? <div className='text-center'><FidgetSpinner 
                     height="80"
@@ -25,7 +30,7 @@ const HomePage = () => {
                     /></div>
                 : <PageList sheets={sheets} /> }
             {isSuccess && <LangDirection/>}
-            {isSuccess && <ShowRecord isSuccessSheets={isSuccess} />  }
+            {currentPage && <ShowRecord />  }
         
         </div>
     );

@@ -6,56 +6,64 @@ import { FidgetSpinner } from 'react-loader-spinner'
 import { useAppSelector } from 'hooks/redux';
 import { useActions } from 'hooks/actions';
 
-const ShowRecord = ({isSuccessSheets}: PageValueProps) => {
+const ShowRecord = () => {
     const {setCurrentRecord, setDataBuffer} = useActions()
     const {currentPage, currentRecord, dataBuffer} = useAppSelector(state => state.googleSheet)
     const {langDirection} = useAppSelector(state => state.googleSheet)
     const [fetchRecords, {isLoading, isSuccess, data}] = useLazyGetRecordsQuery();
+    const [flag, setFlag] = useState(false)
 
-    const _currentrecord:number = currentRecord[currentPage] ? currentRecord[currentPage] : 0;
+    const _currentRecord:number = currentRecord[currentPage] ? currentRecord[currentPage] : 0;
 
-    // console.log('currentRecord:', currentRecord)
+    // console.log('currentRecord:', _currentRecord)
     // console.log('currentPage:', currentPage)
+    // console.log('page Buffer:', dataBuffer)
+    // console.log('page records:', records)
     
     useEffect(() => {
-        if(currentPage && !dataBuffer[currentPage]) {
-            fetchRecords(currentPage)
-            setDataBuffer({[currentPage]: data})
-        } 
-    }, [currentPage, isSuccess])
+        getRecords()
+    }, [currentPage, data])
 
     const records:Records = dataBuffer[currentPage]
 
-    // console.log('show record: ', _currentrecord)
-
-    console.log('pageBuffer:', dataBuffer)
-    console.log('page data:', data)
-
-
-    const checkCurrentRecord = ()=> {
-        if(isSuccess && _currentrecord === data!.length) {
-            fetchRecords(currentPage)
-            setCurrentRecord({[currentPage]: 0})
-            console.log('reload data')
+    async function getRecords() {
+        if(currentPage && !dataBuffer[currentPage]) {
+            await fetchRecords(currentPage)
+            setDataBuffer({[currentPage]: data})
         }
     }
+
     const nextButton = ()=> {
-        if (isSuccess && _currentrecord < data!.length) {
-            setCurrentRecord({[currentPage]: _currentrecord + 1})
+        if (_currentRecord < records!.length -1 && !flag) {
+            setFlag(true)
+        } else if(_currentRecord < records!.length -1 && flag) {
+            setCurrentRecord({[currentPage]: _currentRecord + 1})
+            setFlag(false)
+        }
+        else {
+            setCurrentRecord({[currentPage]: 0 })
         }
     }
     const prevButton = ()=> {
-        if (isSuccess && _currentrecord >= 1) {
-            setCurrentRecord({[currentPage]: _currentrecord - 1})
+        if (_currentRecord >= 1) {
+            setCurrentRecord({[currentPage]: _currentRecord - 1})
         }
-        checkCurrentRecord()
     }
-    // checkCurrentRecord()
+
+    const reloadRecords = async () => {
+        await fetchRecords(currentPage)
+        setDataBuffer({[currentPage]: data})
+        setCurrentRecord({[currentPage]: 0})
+    }
+
 
     return (
         <div>
-            <button onClick={prevButton} disabled={!Boolean(_currentrecord)}>prev record (z)</button>
-            <button onClick={nextButton} >next record (x)</button>
+            <div className='manage-records'>
+                <button onClick={prevButton} disabled={!Boolean(_currentRecord)}>prev record (z)</button>
+                <button onClick={nextButton} >next record (x)</button>
+            </div>
+            
             { isLoading 
                 ? <div className='text-center'><FidgetSpinner 
                     height="80"
@@ -64,8 +72,33 @@ const ShowRecord = ({isSuccessSheets}: PageValueProps) => {
                     /></div>
                 :  '' 
             }
-            {isSuccess && records && _currentrecord < records!.length && <p>{records![_currentrecord].word} - {records![_currentrecord].translation}</p>}
-            {isSuccess && records && _currentrecord < records!.length && <p className='text-center'> {records!.length - _currentrecord } word from {records!.length}</p>}
+            {langDirection && records && _currentRecord < records!.length && 
+            <div className='record'>
+                {!flag && <p>{records![_currentRecord].word}</p>}
+                {flag && <div>
+                    <p>{records![_currentRecord].word}</p>
+                    <p>-</p>
+                    <p>{records![_currentRecord].translation}</p>
+                </div>}
+            </div>}
+
+            {!langDirection && records && _currentRecord < records!.length && 
+             <div className='record'>
+                {!flag && <p>{records![_currentRecord].translation}</p>}
+                {flag && <div>
+                    <p>{records![_currentRecord].translation}</p>
+                    <p>-</p>
+                    <p>{records![_currentRecord].word}</p>
+                </div>}
+            </div>}
+
+            <div className='home-footer'>
+                {records && _currentRecord < records!.length && <p className='text-center'> {records!.length - _currentRecord } word from {records!.length}</p>}
+                <div className='text-center'>
+                    <button onClick={reloadRecords} >reload list</button>
+                </div>
+            </div>
+
         </div>
     );
 };
